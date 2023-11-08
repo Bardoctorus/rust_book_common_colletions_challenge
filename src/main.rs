@@ -1,17 +1,20 @@
 use rand::prelude::*;
 use std::env;
 use std::process;
-
+use std::io;
 
 // TODO: Return values.
 fn int_med_mode(){
     // Put random numbers in a Vec.
+    println!("-----------------------------");
     println!("Given a list of integers, use a vector and return the median (when sorted, the value in the middle position) and mode (the value that occurs most often; a hash map will be helpful here) of the list.");
-    
-    let mut in_vec : Vec<i32> = Vec::new();
+    println!("-----------------------------");
     let mut rng = thread_rng();
-    for _i in 0..15{
-    let x :i32 = rng.gen_range(1..30);
+    let max_num = rng.gen_range(5..5000);
+    println!("Generating a vector whose values and length can be any integers up to {}", max_num);
+    let mut in_vec : Vec<i32> = Vec::new();
+    for _i in 0..max_num{
+    let x :i32 = rng.gen_range(0..max_num);
     in_vec.push(x);
     }
     println!("in_vec is {:?}",in_vec);
@@ -29,14 +32,25 @@ fn int_med_mode(){
     // let median  = in_vec.get((in_vec.len()+1)/2);  <-- this doesn't work as Vecs are 0
     // indexed unlike real life
     let opt_median  = in_vec.get(in_vec.len()/2);
-    let median;
+    let mut median :f32;
     match opt_median  {
-        Some(i) => median = i,
+        Some(i) => {
+            median = *i as f32;
+            if in_vec.len()%2 == 0 {
+                let other_val_opt = in_vec.get(in_vec.len()/2-1);
+                let other_val: f32;
+                match other_val_opt {
+                    Some(j) => {
+                        other_val = *j as f32;
+                        median = (median+other_val)/2.0;
+                    }
+                    None => panic!("Couldn't get other val of even vec length for median calculation"),
+                };
+            }
+        }
         None => panic!("Couldn't get the median of in_vec: {:?}", in_vec),
     };
     println!("The median of Sorted in_vec is {}", median);
-    // TODO: Make the median work properly i.e if it's an even number of values give the float
-    // value in between
     //
     // TODO: Mode
 }
