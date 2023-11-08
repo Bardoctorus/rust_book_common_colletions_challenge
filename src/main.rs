@@ -83,8 +83,12 @@ fn int_med_mode(){
 }
 
 fn pig_latin(){
+    println!("-----------------------------");
     println!("Convert strings to pig latin. The first consonant of each word is moved to the end of the word and “ay” is added, so “first” becomes “irst-fay.” Words that start with a vowel have “hay” added to the end instead (“apple” becomes “apple-hay”). Keep in mind the details about UTF-8 encoding!");
-    // Ok so I need some words
+    println!("-----------------------------");
+    
+    println!("Ok so I need some words, lets use the words from the challenge, as it adds the extra challenge of handling the quotes etc.");
+    println!("-----------------------------");
     let words = String::from("Convert strings to pig latin. The first consonant of each word is moved to the end of the word and “ay” is added, so “first” becomes “irst-fay.” Words that start with a vowel have “hay” added to the end instead (“apple” becomes “apple-hay”). Keep in mind the details about UTF-8 encoding!");
     println!("Words are {}",words);
     // So, first we need to collect the words.
@@ -119,6 +123,11 @@ fn pig_latin(){
 }
     // Then move the correct letters (or not if it's a vowel) to the end with the -ay/-hay ting
 fn pig_up(input: String) -> String {
+    let outstr;
+    match &input[0..1]{
+        "a"|"e"|"i"|"o"|"u" => outstr = String::from(input[..]+"-hay".as_str()),
+        _ => println!("You consonating."),
+    };
     let bing = String::from("temp");
     let ting = input+&bing; 
     ting
