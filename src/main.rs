@@ -2,7 +2,6 @@ use rand::prelude::*;
 use std::collections::HashMap;
 use std::env;
 use std::process;
-use std::io;
 
 // TODO: Return values.
 fn int_med_mode(){
@@ -18,25 +17,30 @@ fn int_med_mode(){
     let x :i32 = rng.gen_range(0..max_num);
     in_vec.push(x);
     }
-    println!("in_vec is {:?}",in_vec);
+    //println!("in_vec is {:?}",in_vec);
     //
     //Now we start the challenge:
     //Given a list of integers, use a vector and return the median (when sorted, the value in the middle position) and mode (the value that occurs most often; a hash map will be helpful here) of the list.
     //First, Median.
 
     in_vec.sort();
-    println!("Sorted in_vec is {:?}",in_vec);
-    println!("Sorted in_vec length is {}", in_vec.len());
+    //println!("Sorted in_vec is {:?}",in_vec);
+    println!("The Randomly generated Vector has been sorted, and it's length is {}", in_vec.len());
     //now, median is middle val... out of 15 though?
     // A ha, school level textbook to the rescue:
-    // If the number of observations is odd, the number in the middle of the list is the
+    // If the number of observations is odd, the number in the middle of the list is the median
+    // For even numbers, you take an average of the two middle values so 1,2,3,4 would be (2+3)/2
     // let median  = in_vec.get((in_vec.len()+1)/2);  <-- this doesn't work as Vecs are 0
     // indexed unlike real life
     let opt_median  = in_vec.get(in_vec.len()/2);
+    // I feel like there must be a more elegant way of doing this than seperate variables for the
+    // option and the float.
     let mut median :f32;
     match opt_median  {
         Some(i) => {
             median = *i as f32;
+            // if the vector is an even length, get the len/2-1, add it to the current median and
+            // divide to get the actual median.
             if in_vec.len()%2 == 0 {
                 let other_val_opt = in_vec.get(in_vec.len()/2-1);
                 let other_val: f32;
@@ -53,13 +57,29 @@ fn int_med_mode(){
     };
     println!("The median of Sorted in_vec is {}", median);
     //
-    // TODO: Mode
+    println!("-----------------------------");
+    println!("Getting the Mode by adding the values to a hashmap and finding the most common value. This one was kind of made easy by the fact that the code you need for it is literaly on the same page as the challenge :D");
+    println!("-----------------------------");
     let mut mode_map = HashMap::new();
     for num in in_vec{
         let count = mode_map.entry(num).or_insert(0);
         *count+=1;
     }
-    println!("Mode Hashmap: {:?}",mode_map);
+//    println!("Mode Hashmap: {:?}",mode_map);
+    let mut max_pair = (0,0);
+    for (key,val) in mode_map {
+       if val > max_pair.1 {
+            max_pair = (key,val);
+            
+
+//            println!("Currently {} is the mode with {} entries",key,val);
+       }
+       else{
+
+       }
+    }
+    println!("{} is the mode with {} entries",max_pair.0,max_pair.1);
+    println!("Note that the source code debugs many values I've left out here for brevity. It's also probably ugly as sin but that's something to fix later");
 }
 
 fn pig_latin(){
