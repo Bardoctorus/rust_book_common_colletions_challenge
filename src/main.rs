@@ -17,32 +17,30 @@ fn int_med_mode(){
     let x :i32 = rng.gen_range(0..max_num);
     in_vec.push(x);
     }
-    //println!("in_vec is {:?}",in_vec);
-    //
-    //Now we start the challenge:
-    //Given a list of integers, use a vector and return the median (when sorted, the value in the middle position) and mode (the value that occurs most often; a hash map will be helpful here) of the list.
-    //First, Median.
-
     in_vec.sort();
-    //println!("Sorted in_vec is {:?}",in_vec);
     println!("The Randomly generated Vector has been sorted, and it's length is {}", in_vec.len());
-    //now, median is middle val... out of 15 though?
+
+    //now, median is middle val. Odd numbers are easy enough but even? 
     // A ha, school level textbook to the rescue:
     // If the number of observations is odd, the number in the middle of the list is the median
-    // For even numbers, you take an average of the two middle values so 1,2,3,4 would be (2+3)/2
-    // let median  = in_vec.get((in_vec.len()+1)/2);  <-- this doesn't work as Vecs are 0
-    // indexed unlike real life
+    // For even numbers, you take an average of the two middle values so 1,2,3,4 would be (2+3)/2 =
+    // 2.5.
+    // middle number  = (number of entries+1)/2)  <-- this doesn't work as Vecs are 0
+    // indexed unlike real life, and this only gives the middle value for an odd numver of entries
+
     let opt_median  = in_vec.get(in_vec.len()/2);
     // I feel like there must be a more elegant way of doing this than seperate variables for the
     // option and the float.
     let mut median :f32;
     match opt_median  {
         Some(i) => {
+            // For odd all we need to do is get the value - I had to de-reference it. Why?
             median = *i as f32;
             // if the vector is an even length, get the len/2-1, add it to the current median and
             // divide to get the actual median.
             if in_vec.len()%2 == 0 {
                 let other_val_opt = in_vec.get(in_vec.len()/2-1);
+                //again with the option and then float here...
                 let other_val: f32;
                 match other_val_opt {
                     Some(j) => {
