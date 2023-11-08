@@ -93,18 +93,23 @@ fn pig_latin(){
     println!("Words are {}",words);
     // So, first we need to collect the words.
     let word_vec : Vec<_>= words.split_whitespace().collect();
-    println!("word_vec is {:?}", word_vec);
+//    println!("word_vec is {:?}", word_vec);
     // then we need to be able to access the length of each word and it's first letter
+    let mut output_string: String = String::new();
     for word in word_vec {
-        println!("Word {} is {} characters long", word, word.len());
+        //println!("Word {} is {} characters long", word, word.len());
         // i feel like an iterator makes more sense here so I can specify only taking the first
         // char. It'll help with other character checking too
         for c in word.chars(){
-            println!("First char in {} is {}", word, c);
+            if !c.is_alphanumeric(){
+            println!("First char in {} is {} and is an unhandled edge case at present", word, c);
+            }
     // Now you need to check if first letter is consonant or vowel, or neither, and handle it
             if c.is_alphanumeric(){
                 // match vowels and consants here
-                println!("TODO: make thie make sense: {}", pig_up(word.to_string()));
+                println!("Simple Pig Latin is: {}", pig_up(word.to_string()));
+                output_string.push_str(&pig_up(word.to_string()));
+                output_string.push_str(" ");
             }
             else {
                 // check the next letter to see if it's actually a letter
@@ -115,23 +120,33 @@ fn pig_latin(){
             break;
         }
     }
-    
-    // Then spit the Vec back out into a string.
-
-
-
+     // Then spit the Vec back out into a string.
+    println!("-----------------------------");
+    println!("-----------------------------");
+    println!("Pig Latinized version: {}", output_string);
+    println!("-----------------------------");
+    println!("Currently any words with non alphanumeric first characters (like \"this\" for example) aren't included in the final output, and any trailing characters aren't handled as you can see in the case of encoding!-hay.\n This is still TODO, along with refactoring.");
+    println!("-----------------------------");
 }
     // Then move the correct letters (or not if it's a vowel) to the end with the -ay/-hay ting
 fn pig_up(input: String) -> String {
-    let outstr;
+    let mut outstr; 
     match &input[0..1]{
-        "a"|"e"|"i"|"o"|"u" => outstr = String::from(input[..]+"-hay".as_str()),
-        _ => println!("You consonating."),
+        "a"|"e"|"i"|"o"|"u" => {
+
+            outstr = String::from(&input[..]);
+            outstr.push_str("-hay");
+        },
+        _ => {
+            outstr = String::from(&input[1..]);
+            outstr.push_str("-");
+            outstr.push_str(&input[0..1]);
+            outstr.push_str("ay");
+        }, 
     };
-    let bing = String::from("temp");
-    let ting = input+&bing; 
-    ting
+    outstr
 }
+
 
 fn employees(){
     unimplemented!();
