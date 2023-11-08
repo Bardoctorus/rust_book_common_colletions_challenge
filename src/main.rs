@@ -1,4 +1,5 @@
 use rand::prelude::*;
+use std::collections::HashMap;
 use std::env;
 use std::process;
 use std::io;
@@ -53,6 +54,12 @@ fn int_med_mode(){
     println!("The median of Sorted in_vec is {}", median);
     //
     // TODO: Mode
+    let mut mode_map = HashMap::new();
+    for num in in_vec{
+        let count = mode_map.entry(num).or_insert(0);
+        *count+=1;
+    }
+    println!("Mode Hashmap: {:?}",mode_map);
 }
 
 fn pig_latin(){
