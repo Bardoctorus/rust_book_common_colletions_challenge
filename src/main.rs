@@ -1,6 +1,13 @@
 use rand::prelude::*;
-fn main() {
+use std::env;
+use std::process;
+
+
+// TODO: Return values.
+fn int_med_mode(){
     // Put random numbers in a Vec.
+    println!("Given a list of integers, use a vector and return the median (when sorted, the value in the middle position) and mode (the value that occurs most often; a hash map will be helpful here) of the list.");
+    
     let mut in_vec : Vec<i32> = Vec::new();
     let mut rng = thread_rng();
     for _i in 0..15{
@@ -28,15 +35,19 @@ fn main() {
         None => panic!("Couldn't get the median of in_vec: {:?}", in_vec),
     };
     println!("The median of Sorted in_vec is {}", median);
-    // Boom. Probably ugly and theres a better way to do it.
-    // Who cares.
-    // Now, what was next?
-    // Convert strings to pig latin. The first consonant of each word is moved to the end of the word and “ay” is added, so “first” becomes “irst-fay.” Words that start with a vowel have “hay” added to the end instead (“apple” becomes “apple-hay”). Keep in mind the details about UTF-8 encoding!
+    // TODO: Make the median work properly i.e if it's an even number of values give the float
+    // value in between
+    //
+    // TODO: Mode
+}
+
+fn pig_latin(){
+    println!("Convert strings to pig latin. The first consonant of each word is moved to the end of the word and “ay” is added, so “first” becomes “irst-fay.” Words that start with a vowel have “hay” added to the end instead (“apple” becomes “apple-hay”). Keep in mind the details about UTF-8 encoding!");
     // Ok so I need some words
-    let mut words = String::from("Convert strings to pig latin. The first consonant of each word is moved to the end of the word and “ay” is added, so “first” becomes “irst-fay.” Words that start with a vowel have “hay” added to the end instead (“apple” becomes “apple-hay”). Keep in mind the details about UTF-8 encoding!");
+    let words = String::from("Convert strings to pig latin. The first consonant of each word is moved to the end of the word and “ay” is added, so “first” becomes “irst-fay.” Words that start with a vowel have “hay” added to the end instead (“apple” becomes “apple-hay”). Keep in mind the details about UTF-8 encoding!");
     println!("Words are {}",words);
     // So, first we need to collect the words.
-    let mut word_vec : Vec<_>= words.split_whitespace().collect();
+    let word_vec : Vec<_>= words.split_whitespace().collect();
     println!("word_vec is {:?}", word_vec);
     // then we need to be able to access the length of each word and it's first letter
     for word in word_vec {
@@ -63,9 +74,43 @@ fn main() {
     // Then spit the Vec back out into a string.
 
 
+
 }
     // Then move the correct letters (or not if it's a vowel) to the end with the -ay/-hay ting
 fn pig_up(input: String) -> String {
-    let ting = String::from("temp");
+    let bing = String::from("temp");
+    let ting = input+&bing; 
     ting
 }
+
+fn employees(){
+    unimplemented!();
+}
+
+fn main() {
+    let args : Vec<String> = env::args().collect();
+    if args.len() != 2 || args.get(1).unwrap() == "-h" {
+        println!("Usage: -i for Integer Median Mode, -p for Pig Latin, -e for Employees");
+        process::exit(1);
+    }
+//match the args to the modes
+    match args[1].as_str(){
+        "-i" => {
+            println!("Integer Mode/Median Mode");
+            int_med_mode();
+        },
+        "-p" => {
+            println!("Pig Latin Mode");
+            pig_latin();
+        },
+        "-e" => {
+            println!("Employee Text Interface Mode");
+            employees();
+
+        },
+        _ => panic!("Invalid input. Usage: -i for Integer Median Mode, -p for Pig Latin, -e for Employees"),
+        
+    };
+    
+}
+
